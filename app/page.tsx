@@ -208,7 +208,7 @@ export default function HomePage() {
               <DialogDescription>{selectedGuide.summary}</DialogDescription>
             </DialogHeader>
             <div className="guide-detail">
-              {selectedGuide.image && <a className="map-frame" href={selectedGuide.image} target="_blank" rel="noreferrer"><img src={selectedGuide.image} alt="深圳技术大学校园地图" /><span>点击查看原图 <ArrowRight size={15} /></span></a>}
+              {selectedGuide.image && <a className="map-frame" href={selectedGuide.image} target="_blank" rel="noreferrer"><img src={selectedGuide.image} alt={selectedGuide.imageAlt || selectedGuide.title} /><span>{selectedGuide.imageLabel || '点击查看原图'} <ArrowRight size={15} /></span></a>}
               {selectedGuide.steps && <div className="detail-block"><h4>操作步骤</h4><ol>{selectedGuide.steps.map((step, index) => {
                 const stepLink = selectedGuide.stepLinks?.find((link) => link.step === index + 1);
                 return <li key={step}><b>{String(index + 1).padStart(2, '0')}</b><span className="step-copy">{step}{stepLink && <button className="step-link" onClick={() => {
