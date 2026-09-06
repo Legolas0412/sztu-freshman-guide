@@ -17,6 +17,7 @@ export default function HomePage() {
   const [recent, setRecent] = useState<string[]>([]);
   const [notice, setNotice] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<GuideCategory | null>(null);
+  const [selectedGuide, setSelectedGuide] = useState<GuideItem | null>(null);
 
   useEffect(() => {
     try {
@@ -45,8 +46,10 @@ export default function HomePage() {
     const next = [item.id, ...recent.filter((id) => id !== item.id)].slice(0, 6);
     setRecent(next);
     localStorage.setItem('sztu-recent', JSON.stringify(next));
-    if (item.href) window.open(item.href, '_blank', 'noopener,noreferrer');
-    else {
+    if (item.status === 'ready') {
+      setSelectedCategory(null);
+      setSelectedGuide(item);
+    } else {
       setNotice(`「${item.title}」正在筹备中，链接将在后续补充。`);
       window.setTimeout(() => setNotice(''), 2800);
     }
@@ -95,7 +98,7 @@ export default function HomePage() {
                   <button key={item.id} onClick={() => openGuide(item)}>
                     <i style={{ background: item.accent }} />
                     <span><strong>{item.title}</strong><small>{item.category} · {item.summary}</small></span>
-                    <b>待补充</b><ChevronRight size={16} />
+                    <b>{item.status === 'ready' ? '已上线' : '待补充'}</b><ChevronRight size={16} />
                   </button>
                 )) : <p className="no-result">暂时没有匹配结果，换一个关键词试试。</p>}
               </div>
@@ -124,7 +127,7 @@ export default function HomePage() {
                   {category.items.map((item) => (
                     <div className="guide-row" key={item.id}>
                       <button className="guide-main" onClick={() => openGuide(item)}>
-                        <span>{item.title}</span><small>待补充</small><ChevronRight size={15} />
+                      <span>{item.title}</span><small className={item.status === 'ready' ? 'ready' : ''}>{item.status === 'ready' ? '查看' : '待补充'}</small><ChevronRight size={15} />
                       </button>
                       <button className="favorite-btn" onClick={() => persistFavorite(item.id)} aria-label={`${favorites.includes(item.id) ? '取消收藏' : '收藏'}${item.title}`}>
                         {favorites.includes(item.id) ? <BookmarkCheck size={16} /> : <Bookmark size={16} />}
@@ -190,11 +193,30 @@ export default function HomePage() {
                 <button key={item.id} onClick={() => openGuide(item)}>
                   <b>{String(index + 1).padStart(2, '0')}</b>
                   <span><strong>{item.title}</strong><small>{item.summary}</small></span>
-                  <em>待补充</em><ChevronRight size={18} />
+                  <em className={item.status === 'ready' ? 'ready' : ''}>{item.status === 'ready' ? '查看详情' : '待补充'}</em><ChevronRight size={18} />
                 </button>
               ))}
             </div>
             <div className="module-dialog-foot"><span>MODULE CONTENT</span><span>{selectedCategory.items.length.toString().padStart(2, '0')} TOPICS</span></div>
+          </>}
+        </DialogContent>
+      </Dialog>
+      <Dialog open={Boolean(selectedGuide)} onOpenChange={(open) => !open && setSelectedGuide(null)}>
+        <DialogContent className="guide-dialog">
+          {selectedGuide && <>
+            <DialogHeader className="guide-dialog-head">
+              <span>GUIDE / {selectedGuide.status === 'ready' ? 'READY' : 'DRAFT'}</span>
+              <DialogTitle>{selectedGuide.title}</DialogTitle>
+              <DialogDescription>{selectedGuide.summary}</DialogDescription>
+            </DialogHeader>
+            <div className="guide-detail">
+              {selectedGuide.image && <a className="map-frame" href={selectedGuide.image} target="_blank" rel="noreferrer"><img src={selectedGuide.image} alt="深圳技术大学校园地图" /><span>点击查看原图 <ArrowRight size={15} /></span></a>}
+              {selectedGuide.steps && <div className="detail-block"><h4>操作步骤</h4><ol>{selectedGuide.steps.map((step, index) => <li key={step}><b>{String(index + 1).padStart(2, '0')}</b><span>{step}</span></li>)}</ol></div>}
+              {selectedGuide.locations && <div className="detail-block"><h4>区域索引</h4><ul>{selectedGuide.locations.map((location) => <li key={location}>{location}</li>)}</ul></div>}
+              {selectedGuide.note && <div className="guide-note"><strong>请注意</strong><p>{selectedGuide.note}</p></div>}
+              {selectedGuide.contact && <div className="guide-contact"><span>咨询电话</span><a href={`tel:${selectedGuide.contact.split('：').pop()}`}>{selectedGuide.contact}</a></div>}
+              {selectedGuide.href && <a className="source-link" href={selectedGuide.href} target="_blank" rel="noopener noreferrer">{selectedGuide.sourceLabel || '查看资料原文'} <ArrowRight size={16} /></a>}
+            </div>
           </>}
         </DialogContent>
       </Dialog>

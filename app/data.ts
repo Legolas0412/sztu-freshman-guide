@@ -4,6 +4,13 @@ export type GuideItem = {
   summary: string;
   tags: string[];
   href?: string;
+  status?: 'ready' | 'pending';
+  steps?: string[];
+  note?: string;
+  contact?: string;
+  image?: string;
+  locations?: string[];
+  sourceLabel?: string;
 };
 
 export type GuideCategory = {
@@ -31,7 +38,7 @@ export const categories: GuideCategory[] = [
     id: 'campus', code: '02', title: '校园生活', english: 'CAMPUS LIFE', icon: 'Sparkles', accent: '#8b7dff',
     description: '认识校园空间、生活节奏，以及属于技大人的日常。',
     items: [
-      { id: 'campus-map', title: '校园地图速览', summary: '教学区、生活区与常用地点索引。', tags: ['校园', '地图'] },
+      { id: 'campus-map', title: '校园地图速览', summary: '教学区、生活区与常用地点索引。', tags: ['校园', '地图'], status: 'ready', image: '/sztu-campus-map.jpg', note: '地图为资料图，校园建设与功能分区可能调整，请以学校最新通知及现场标识为准。', locations: ['A区：A0 食堂、A1 宿舍（南区）、A2 健康与环境工程学院 / 药学院', 'B区：B1 创意设计学院；B2、B3、B4 为相关学院与科研、交流空间', 'C区：C0 教工餐厅与湖景餐厅、C1 学院楼、C2 图书馆、C3 中心综合楼、C4 会堂、C5 公共教学楼', 'D区：D1 学院楼、D2 体育馆、D3 中德智能制造学院 / 商学院', 'E区：E0 食堂、E1 校医院、E2/E3 学生宿舍（北区）'] },
       { id: 'campus-dorm', title: '宿舍生活指南', summary: '入住准备与宿舍生活常见问题。', tags: ['宿舍', '生活'] },
       { id: 'campus-calendar', title: '校园活动日历', summary: '值得关注的校园活动入口。', tags: ['活动', '校园'] },
     ],
@@ -69,7 +76,7 @@ export const categories: GuideCategory[] = [
     items: [
       { id: 'living-food', title: '食堂探索指南', summary: '校园餐饮与用餐地点索引。', tags: ['食堂', '生活'] },
       { id: 'living-delivery', title: '快递与收件', summary: '常用收件地点与取件提示。', tags: ['快递', '生活'] },
-      { id: 'living-service', title: '生活服务地图', summary: '超市、打印与常用服务点。', tags: ['服务', '校园'] },
+      { id: 'living-electricity', title: '宿舍电费充值', summary: '关注服务号、绑定房间并完成电表充值。', tags: ['宿舍', '电费', '生活'], status: 'ready', href: 'https://mp.weixin.qq.com/s?__biz=MzkzNzEzNjM1MQ==&mid=2247490891&idx=1&sn=6656f64e64825853270bcf72ab488956', sourceLabel: '深技大信息中心服务号原文', steps: ['微信关注“深技大信息中心服务号”。', '进入公众号，依次点击“电费充值 → 购电服务 → 用户注册”。', '注册成功后返回，点击“电表服务 → 绑定房间”。', '绑定成功后返回，点击“电表充值”并按页面提示完成充值。'], note: '充值成功后，电表余额不会即时更新，请稍后再查看。', contact: '学生公寓服务中心：0755-23256630' },
     ],
   },
   {
