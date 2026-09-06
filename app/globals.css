@@ -115,6 +115,9 @@ blockquote { margin:0; text-align:center; font-size:25px; font-style:normal; fon
 .map-frame img { width:100%; max-height:470px; object-fit:contain; background:#e6ede4; } .map-frame span { padding:13px 15px; display:flex; justify-content:space-between; font-size:12px; font-weight:620; }
 .detail-block h4 { margin:0 0 13px; color:var(--blue); font-size:11px; } .detail-block ol,.detail-block ul { display:grid; margin:0; padding:0; list-style:none; }
 .detail-block ol li { padding:14px 0; display:grid; grid-template-columns:38px 1fr; gap:12px; border-top:1px solid var(--line); line-height:1.65; } .detail-block ol li b { color:var(--blue); font:650 10px var(--font-geist-mono); }
+.step-copy { display:grid; justify-items:start; gap:10px; }
+.step-link { padding:7px 11px; display:inline-flex; align-items:center; gap:7px; border:0; border-radius:999px; background:var(--blue-soft); color:var(--blue); font-size:11px; font-weight:650; cursor:pointer; transition:background .2s,color .2s,transform .2s var(--ease); }
+.step-link:hover { background:var(--blue); color:#fff; transform:translateY(-1px); }
 .detail-block ul li { padding:11px 0; border-bottom:1px solid var(--line); font-size:13px; line-height:1.65; }
 .guide-note { padding:16px 18px; border-radius:13px; background:#f8f0da; color:#5d4f2c; } .guide-note p { margin:5px 0 0; font-size:13px; line-height:1.65; }
 .guide-contact { padding:15px 18px; display:flex; justify-content:space-between; border-radius:13px; background:#fff; box-shadow:0 10px 30px rgba(34,57,86,.06); }

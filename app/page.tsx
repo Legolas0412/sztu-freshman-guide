@@ -209,7 +209,13 @@ export default function HomePage() {
             </DialogHeader>
             <div className="guide-detail">
               {selectedGuide.image && <a className="map-frame" href={selectedGuide.image} target="_blank" rel="noreferrer"><img src={selectedGuide.image} alt="深圳技术大学校园地图" /><span>点击查看原图 <ArrowRight size={15} /></span></a>}
-              {selectedGuide.steps && <div className="detail-block"><h4>操作步骤</h4><ol>{selectedGuide.steps.map((step, index) => <li key={step}><b>{String(index + 1).padStart(2, '0')}</b><span>{step}</span></li>)}</ol></div>}
+              {selectedGuide.steps && <div className="detail-block"><h4>操作步骤</h4><ol>{selectedGuide.steps.map((step, index) => {
+                const stepLink = selectedGuide.stepLinks?.find((link) => link.step === index + 1);
+                return <li key={step}><b>{String(index + 1).padStart(2, '0')}</b><span className="step-copy">{step}{stepLink && <button className="step-link" onClick={() => {
+                  const linkedGuide = allItems.find((item) => item.id === stepLink.guideId);
+                  if (linkedGuide) openGuide(linkedGuide);
+                }}>{stepLink.label}<ArrowRight size={14} /></button>}</span></li>;
+              })}</ol></div>}
               {selectedGuide.locations && <div className="detail-block"><h4>区域索引</h4><ul>{selectedGuide.locations.map((location) => <li key={location}>{location}</li>)}</ul></div>}
               {selectedGuide.note && <div className="guide-note"><strong>请注意</strong><p>{selectedGuide.note}</p></div>}
               {selectedGuide.contact && <div className="guide-contact"><span>咨询电话</span><a href={`tel:${selectedGuide.contact.split('：').pop()}`}>{selectedGuide.contact}</a></div>}
