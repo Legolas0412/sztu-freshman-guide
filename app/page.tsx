@@ -62,7 +62,7 @@ export default function HomePage() {
       <header className="site-header">
         <div className="nav-shell">
           <button className="brand" onClick={() => scrollTo('home')} aria-label="返回首页">
-            <img src="/sztu-mark.svg" alt="深圳技术大学校徽" />
+            <img src="sztu-mark.svg" alt="深圳技术大学校徽" />
             <span><strong>深圳技术大学</strong><small>SHENZHEN TECHNOLOGY UNIVERSITY</small></span>
           </button>
           <nav aria-label="主导航">
@@ -101,7 +101,7 @@ export default function HomePage() {
             </div>
           </div>
           <button className="hero-map" onClick={() => openGuide(categories[1].items[0])} aria-label="打开深圳技术大学校园地图">
-            <img src="/sztu-campus-map.jpg" alt="深圳技术大学校园地图预览" />
+            <img src="sztu-campus-map.jpg" alt="深圳技术大学校园地图预览" />
             <span><small>校园地图</small><strong>先认识你的新坐标</strong></span>
             <ArrowRight size={20} />
           </button>
@@ -170,7 +170,7 @@ export default function HomePage() {
       <footer id="about">
         <div className="footer-axis" aria-hidden="true" />
         <div className="section-shell footer-grid">
-          <div className="footer-brand"><img src="/sztu-mark.svg" alt="" /><div><strong>深圳技术大学</strong><span>SHENZHEN TECHNOLOGY UNIVERSITY</span></div></div>
+          <div className="footer-brand"><img src="sztu-mark.svg" alt="" /><div><strong>深圳技术大学</strong><span>SHENZHEN TECHNOLOGY UNIVERSITY</span></div></div>
           <blockquote>“唯实求精”<small>SEEK TRUTH · PURSUE EXCELLENCE</small></blockquote>
           <div className="footer-info"><span>广东省深圳市坪山区兰田路 3002 号</span><span>本网站为非官方学生攻略，仅供参考</span><strong>由26级学弟制作，感谢支持</strong></div>
         </div>
