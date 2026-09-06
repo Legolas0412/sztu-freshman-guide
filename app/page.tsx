@@ -5,7 +5,8 @@ import {
   ArrowRight, BookOpen, Bookmark, BookmarkCheck, ChevronRight, Coffee, Cpu,
   Flag, Heart, Home, Info, Search, ShieldCheck, Sparkles, TrainFront, UsersRound, X,
 } from 'lucide-react';
-import { categories, timeline, type GuideItem } from './data';
+import { categories, timeline, type GuideCategory, type GuideItem } from './data';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const iconMap = { Flag, Sparkles, BookOpen, Cpu, TrainFront, Coffee, UsersRound, ShieldCheck };
 const quickTags = ['入学报到', '宿舍', '校园卡', '交通', '选课'];
@@ -15,6 +16,7 @@ export default function HomePage() {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [recent, setRecent] = useState<string[]>([]);
   const [notice, setNotice] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<GuideCategory | null>(null);
 
   useEffect(() => {
     try {
@@ -77,7 +79,6 @@ export default function HomePage() {
           <div className="eyebrow"><i /> SZTU / FRESHMAN GUIDE <span>2026</span></div>
           <div className="hero-copy">
             <h1>新生，<br /><em>从这里开始。</em></h1>
-            <p>把陌生的校园拆解成清晰的坐标。<br />一份由同学持续完善的深技大生存指南。</p>
           </div>
           <div className="search-zone">
             <div className="search-box">
@@ -131,7 +132,7 @@ export default function HomePage() {
                     </div>
                   ))}
                 </div>
-                <button className="card-more" onClick={() => setQuery(category.title)}>查看模块 <ArrowRight size={16} /></button>
+                <button className="card-more" onClick={() => setSelectedCategory(category)}>查看模块 <ArrowRight size={16} /></button>
               </article>
             );
           })}
@@ -170,12 +171,33 @@ export default function HomePage() {
         <div className="section-shell footer-grid">
           <div className="footer-brand"><img src="/sztu-mark.svg" alt="" /><div><strong>深圳技术大学</strong><span>SHENZHEN TECHNOLOGY UNIVERSITY</span></div></div>
           <blockquote>“唯实求精”<small>SEEK TRUTH · PURSUE EXCELLENCE</small></blockquote>
-          <div className="footer-info"><span>广东省深圳市坪山区兰田路 3002 号</span><span>本网站为非官方学生攻略，仅供参考</span></div>
+          <div className="footer-info"><span>广东省深圳市坪山区兰田路 3002 号</span><span>本网站为非官方学生攻略，仅供参考</span><strong>由26级学弟制作，感谢支持</strong></div>
         </div>
         <div className="footer-bottom"><span>SZTU FRESHMAN GUIDE / COMMUNITY EDITION</span><span>MADE FOR NEW BEGINNINGS</span></div>
       </footer>
 
       <div className={`toast ${notice ? 'show' : ''}`} role="status"><i />{notice}</div>
+      <Dialog open={Boolean(selectedCategory)} onOpenChange={(open) => !open && setSelectedCategory(null)}>
+        <DialogContent className="module-dialog">
+          {selectedCategory && <>
+            <DialogHeader className="module-dialog-head">
+              <span>{selectedCategory.code} / {selectedCategory.english}</span>
+              <DialogTitle>{selectedCategory.title}</DialogTitle>
+              <DialogDescription>{selectedCategory.description}</DialogDescription>
+            </DialogHeader>
+            <div className="module-content">
+              {selectedCategory.items.map((item, index) => (
+                <button key={item.id} onClick={() => openGuide(item)}>
+                  <b>{String(index + 1).padStart(2, '0')}</b>
+                  <span><strong>{item.title}</strong><small>{item.summary}</small></span>
+                  <em>待补充</em><ChevronRight size={18} />
+                </button>
+              ))}
+            </div>
+            <div className="module-dialog-foot"><span>MODULE CONTENT</span><span>{selectedCategory.items.length.toString().padStart(2, '0')} TOPICS</span></div>
+          </>}
+        </DialogContent>
+      </Dialog>
       <nav className="mobile-nav" aria-label="移动端导航">
         <button onClick={() => scrollTo('home')}><Home size={19} />首页</button>
         <button onClick={() => scrollTo('categories')}><Search size={19} />攻略</button>
