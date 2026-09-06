@@ -122,7 +122,7 @@ export default function HomePage() {
                 <p className="card-en">{category.english}</p>
                 <h3>{category.title}</h3>
                 <p className="card-description">{category.description}</p>
-                <div className="guide-list">
+                <div className="guide-list" aria-label={`${category.title}攻略列表，可上下滚动`}>
                   {category.items.map((item) => (
                     <div className="guide-row" key={item.id}>
                       <button className="guide-main" onClick={() => openGuide(item)}>
